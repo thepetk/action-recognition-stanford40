@@ -34,7 +34,7 @@ uv sync
 In order to run the Neural Network example you can simply run:
 
 ```bash
-python main.py
+uv run main.py
 ```
 
 ### Available Configurations:
