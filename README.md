@@ -41,17 +41,17 @@ python main.py
 
 The script can be configured through the usage of environment variables. The env vars used are:
 
-| Name                     | Description                                      | Type   | Default        |
-| ------------------------ | ------------------------------------------------ | ------ | -------------- |
-| VALIDATION_RATIO         | The percentage of train data used for validation | float  | 0.20           |
-| TEST_RATIO               | The percentage of full data used for test        | float  | 0.15           |
-| ROOT_PATH                | The root path of the dataset                     | string | Stanford40     |
-| IMAGE_FILES_PATH         | The path to the jpeg images dir                  | string | JPEGImages     |
-| XML_FILES_PATH           | The path to the xml annotations dir              | string | XMLAnnotations |
-| NN_IN_CHANNELS           | Number of input channels                         | int    | 3              |
-| NN_LEARNING_RATE         | The percentage of learning rate                  | float  | 0.001          |
-| NN_TRANSFORM_RESIZE      | The size of the image transformation             | int    | 256            |
-| NN_TRAIN_BATCH_SIZE      | The batch size used for training                 | int    | 2              |
-| NN_TEST_BATCH_SIZE       | The batch size used for testing                  | int    | 1              |
-| NN_VALIDATION_BATCH_SIZE | The batch size used for validation               | int    | 1              |
-| NN_NUM_EPOCHS            | The number of epochs during training             | int    | 5              |
+| Name                       | Description                                      | Type     | Default          |
+| -------------------------- | ------------------------------------------------ | -------- | ---------------- |
+| `VALIDATION_RATIO`         | The percentage of train data used for validation | `float`  | 0.20             |
+| `TEST_RATIO`               | The percentage of full data used for test        | `float`  | 0.15             |
+| `ROOT_PATH`                | The root path of the dataset                     | `string` | "Stanford40"     |
+| `IMAGE_FILES_PATH`         | The path to the jpeg images dir                  | `string` | "JPEGImages"     |
+| `XML_FILES_PATH`           | The path to the xml annotations dir              | `string` | "XMLAnnotations" |
+| `NN_IN_CHANNELS`           | Number of input channels                         | `int`    | 3                |
+| `NN_LEARNING_RATE`         | The percentage of learning rate                  | `float`  | 0.001            |
+| `NN_TRANSFORM_RESIZE`      | The size of the image transformation             | `int`    | 256              |
+| `NN_TRAIN_BATCH_SIZE`      | The batch size used for training                 | `int`    | 2                |
+| `NN_TEST_BATCH_SIZE`       | The batch size used for testing                  | `int`    | 1                |
+| `NN_VALIDATION_BATCH_SIZE` | The batch size used for validation               | `int`    | 1                |
+| `NN_NUM_EPOCHS`            | The number of epochs during training             | `int`    | 5                |
