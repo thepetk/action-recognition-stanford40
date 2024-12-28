@@ -18,16 +18,21 @@ def main() -> "None":
     print("\n", "-" * 8, "Data Split and Load", "-" * 8)
     splitter = Stanford40DataSplitter()
     transform = transforms.Compose(
-        [transforms.Resize((hparams.resize, hparams.resize)), transforms.ToTensor()]
+        [
+            transforms.Resize((hparams.resize, hparams.resize)),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,)),
+        ]
     )
+    labels = splitter.generate_labels()
     train_items, test_items, validation_items = splitter.seperate()
     stanford_loader = load_data(
-        train_items, test_items, validation_items, transform, hparams
+        labels, train_items, test_items, validation_items, transform, hparams
     )
 
     print("\n", "-" * 8, "Initializing NN", "-" * 8)
     model = CustomActionRecogntionNN(
-        hparams.in_channels, stanford_loader.num_classes
+        hparams.in_channels, stanford_loader.num_classes, hparams.resize
     ).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=hparams.learning_rate)

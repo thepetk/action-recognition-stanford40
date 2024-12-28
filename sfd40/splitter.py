@@ -1,6 +1,6 @@
 import random
 import os
-from sfd40.utils import Stanford40DataItem, DATA_ITEMS
+from sfd40.utils import Stanford40DataItem, DATA_ITEMS, get_action
 from sfd40.defaults import (
     IMAGE_FILES_PATH,
     XML_FILES_PATH,
@@ -63,6 +63,13 @@ class Stanford40DataSplitter:
         return None
 
     @property
+    def _all_items(self) -> "DATA_ITEMS":
+        return [
+            Stanford40DataItem(image=img, xml=self._get_xml_file(img))
+            for img in self.image_files
+        ]
+
+    @property
     def test_items(self) -> "DATA_ITEMS":
         return [
             Stanford40DataItem(image=img, xml=self._get_xml_file(img))
@@ -98,6 +105,17 @@ class Stanford40DataSplitter:
         return len(self.image_files) == len(self.train_items) + len(
             self.validation_items
         ) + len(self.test_items)
+
+    def generate_labels(self) -> "dict[str, int]":
+        labels: "dict[str, int]" = {}
+        idx = 0
+        for img_item in self._all_items:
+            action = get_action(img_item.xml)
+            if labels.get(action) is not None:
+                continue
+            labels[action] = idx
+            idx += 1
+        return labels
 
     def seperate(self) -> "tuple[DATA_ITEMS, DATA_ITEMS, DATA_ITEMS]":
         if not self.data_separation_is_valid:
