@@ -41,9 +41,7 @@ def load_data(
         train=DataLoader(
             train_dataset, batch_size=hparams.train_batch_size, shuffle=True
         ),
-        test=DataLoader(
-            test_dataset, batch_size=hparams.test_batch_size, shuffle=False
-        ),
+        test=DataLoader(test_dataset, batch_size=hparams.test_batch_size, shuffle=True),
         validation=DataLoader(
             val_dataset, batch_size=hparams.train_batch_size, shuffle=False
         ),

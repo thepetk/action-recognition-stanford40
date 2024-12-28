@@ -26,11 +26,6 @@ class Stanford40Dataset(Dataset):
     def __len__(self) -> "int":
         return len(self.image_items)
 
-    def _encode_label(self, label: "int") -> "torch.Tensor":
-        _t = torch.zeros(len(self.labels.keys()))
-        _t[label] = 1.0
-        return _t
-
     def __getitem__(self, idx) -> "tuple[torch.Tensor, torch.Tensor]":
         image = read_image(self.image_items[idx].image, mode=self.read_mode)
         action = get_action(self.image_items[idx].xml)
@@ -41,4 +36,4 @@ class Stanford40Dataset(Dataset):
         if self.transform:
             image = self.transform(image)
 
-        return image, self._encode_label(self.labels[action])
+        return image, self.labels[action]
