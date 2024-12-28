@@ -58,7 +58,7 @@ The script can be configured through the usage of environment variables. The env
 #### Neural Network HyperParameters
 
 | Name | Description | Type | Default |
-| `NN_IMAGE_READ_MODE` | Mode of image read (GRAY or RGB) | `str` | "GRAY" |
+| `NN_IMAGE_READ_MODE` | Mode of image read (GRAY or RGB) | `str` | "RGB" |
 | `NN_LEARNING_RATE` | The percentage of learning rate | `float` | 0.001 |
 | `NN_TRANSFORM_RESIZE` | The size of the image transformation | `int` | 64 |
 | `NN_TRAIN_BATCH_SIZE` | The batch size used for training | `int` | 256 |
