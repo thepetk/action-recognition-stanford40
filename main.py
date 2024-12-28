@@ -6,7 +6,7 @@ import torch.optim as optim
 from xml.etree import ElementTree
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
-from torchvision.io import read_image
+from torchvision.io import read_image, ImageReadMode
 import os
 
 
@@ -16,12 +16,12 @@ IMAGE_FILES_PATH = f"{ROOT_PATH}/{os.getenv('IMAGE_FILES_PATH', 'JPEGImages')}"
 XML_FILES_PATH = f"{ROOT_PATH}/{os.getenv('XML_FILES_PATH', 'XMLAnnotations')}"
 
 # NN config
-NN_IN_CHANNELS = int(os.getenv("NN_IN_CHANNELS", 3))
+RAW_IMAGE_READ_MODE = os.getenv("NN_IMAGE_READ_MODE", "GRAY")
 NN_LEARNING_RATE = float(os.getenv("NN_LEARNING_RATE", 0.001))
 NN_TRANSFORM_RESIZE = int(os.getenv("NN_TRANSFORM_RESIZE", 256))
-NN_TRAIN_BATCH_SIZE = int(os.getenv("NN_TRAIN_BATCH_SIZE", 2))
-NN_TEST_BATCH_SIZE = int(os.getenv("NN_TEST_BATCH_SIZE", 1))
-NN_VALIDATION_BATCH_SIZE = int(os.getenv("NN_VALIDATION_BATCH_SIZE", 1))
+NN_TRAIN_BATCH_SIZE = int(os.getenv("NN_TRAIN_BATCH_SIZE", 100))
+NN_TEST_BATCH_SIZE = int(os.getenv("NN_TEST_BATCH_SIZE", 50))
+NN_VALIDATION_BATCH_SIZE = int(os.getenv("NN_VALIDATION_BATCH_SIZE", 50))
 NN_NUM_EPOCHS = int(os.getenv("NN_NUM_EPOCHS", 5))
 
 # Data Ratio
@@ -31,6 +31,30 @@ VALIDATION_RATIO = float(os.getenv("VALIDATION_RATIO", 0.15))
 
 class DataSeparationError(Exception):
     pass
+
+
+def get_image_read_mode(
+    img_read_mode: "str" = RAW_IMAGE_READ_MODE,
+) -> "ImageReadMode":
+    if img_read_mode == "RGB":
+        return ImageReadMode.RGB
+    else:
+        return ImageReadMode.GRAY
+
+
+NN_IMAGE_READ_MODE = get_image_read_mode()
+
+
+def get_nn_in_channels(
+    img_read_mode: "ImageReadMode" = NN_IMAGE_READ_MODE,
+) -> "int":
+    if img_read_mode == ImageReadMode.RGB:
+        return 3
+    else:
+        return 1
+
+
+NN_IN_CHANNELS = get_nn_in_channels()
 
 
 @dataclass
@@ -54,6 +78,11 @@ class Stanford40DataSplitter:
         self.xml_files = self._get_xml_files(xml_files_path)
         self.test_ratio = test_ratio
         self.validation_ratio = validation_ratio
+        print(
+            "Splitter:: separating for given ratios: test {test}, val {val}".format(
+                test=self.test_ratio, val=self.validation_ratio
+            )
+        )
 
     def _get_image_files(self, image_files_path: "str") -> "list[str]":
         """
@@ -129,6 +158,10 @@ class Stanford40DataSplitter:
     def seperate(self) -> "tuple[DATA_ITEMS, DATA_ITEMS, DATA_ITEMS]":
         if not self.data_separation_is_valid:
             raise DataSeparationError("Sets not equal to full size of images")
+        print("Splitter:: separated dataset into 3 datasets")
+        print(f"Splitter:: train: {len(self.train_items)} items")
+        print(f"Splitter:: test: {len(self.test_items)} items")
+        print(f"Splitter:: validation: {len(self.validation_items)} items")
         return (self.train_items, self.test_items, self.validation_items)
 
 
@@ -136,11 +169,18 @@ class Stanford40Dataset(Dataset):
     def __init__(
         self,
         image_items: "DATA_ITEMS",
+        read_mode: "ImageReadMode",
         transform: "transforms.Compose | None" = None,
     ) -> "None":
         self.image_items = image_items
         self.transform = transform
+        self.read_mode = read_mode
         self.labels = self._generate_labels()
+        print(
+            "Dataset:: Generating dataset for {n} given items and {l} labels".format(
+                n=len(self.image_items), l=len(self.labels.keys())
+            )
+        )
 
     def _get_action(self, xml_file: "str") -> "str":
         root = ElementTree.parse(xml_file).getroot()
@@ -161,7 +201,7 @@ class Stanford40Dataset(Dataset):
         return len(self.image_items)
 
     def __getitem__(self, idx) -> "tuple[torch.Tensor, str]":
-        image = read_image(self.image_items[idx].image)
+        image = read_image(self.image_items[idx].image, mode=self.read_mode)
         action = self._get_action(self.image_items[idx].xml)
 
         if isinstance(image, torch.Tensor):
@@ -184,13 +224,13 @@ class Stanford40DataLoader:
 @dataclass
 class Stanford40HyperParameters:
     in_channels: "int"
-    out_channels: "int"
     learning_rate: "float"
     resize: "int"
     train_batch_size: "int"
     test_batch_size: "int"
     validation_batch_size: "int"
     num_epochs: "int"
+    image_read_mode: "ImageReadMode"
 
 
 class ActionRecogntionNN(nn.Module):
@@ -218,15 +258,23 @@ class ActionRecogntionNN(nn.Module):
 
 
 def get_hyperparameters() -> "Stanford40HyperParameters":
+    print("Config:: initializing hyperparameters")
+    print(f"Config:: in_channels: {NN_IN_CHANNELS}")
+    print(f"Config:: learning_rate: {NN_LEARNING_RATE}")
+    print(f"Config:: resize: {NN_TRANSFORM_RESIZE}")
+    print(f"Config:: train_batch_size: {NN_TRAIN_BATCH_SIZE}")
+    print(f"Config:: test_batch_size: {NN_TEST_BATCH_SIZE}")
+    print(f"Config:: validation_batch_size: {NN_VALIDATION_BATCH_SIZE}")
+    print(f"Config:: num_epochs: {NN_NUM_EPOCHS}")
     return Stanford40HyperParameters(
         in_channels=NN_IN_CHANNELS,
-        out_channels=NN_OUT_CHANNELS,
         learning_rate=NN_LEARNING_RATE,
         resize=NN_TRANSFORM_RESIZE,
         train_batch_size=NN_TRAIN_BATCH_SIZE,
         test_batch_size=NN_TEST_BATCH_SIZE,
         validation_batch_size=NN_VALIDATION_BATCH_SIZE,
         num_epochs=NN_NUM_EPOCHS,
+        image_read_mode=NN_IMAGE_READ_MODE,
     )
 
 
@@ -237,10 +285,16 @@ def load_data(
     transform: "transforms.Compose",
     hparams: "Stanford40HyperParameters",
 ) -> "Stanford40DataLoader":
-    train_dataset = Stanford40Dataset(train_items, transform=transform)
-    test_dataset = Stanford40Dataset(test_items, transform=transform)
-    val_dataset = Stanford40Dataset(validation_items, transform=transform)
-
+    train_dataset = Stanford40Dataset(
+        train_items, transform=transform, read_mode=hparams.image_read_mode
+    )
+    test_dataset = Stanford40Dataset(
+        test_items, transform=transform, read_mode=hparams.image_read_mode
+    )
+    val_dataset = Stanford40Dataset(
+        validation_items, transform=transform, read_mode=hparams.image_read_mode
+    )
+    print("Loader:: Loaded 3 datasets")
     return Stanford40DataLoader(
         num_classes=len(train_dataset.labels.keys()) + 1,
         train=DataLoader(
@@ -316,8 +370,10 @@ def main() -> "None":
     # Set device (GPU or CPU)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+    print("\n", "-" * 8, "HyperParameters Config", "-" * 8)
     hparams = get_hyperparameters()
 
+    print("\n", "-" * 8, "Data Split and Load", "-" * 8)
     splitter = Stanford40DataSplitter()
 
     # Data transformations
@@ -330,22 +386,18 @@ def main() -> "None":
     stanford_loader = load_data(
         train_items, test_items, validation_items, transform, hparams
     )
-
-    # Create the Action Recognition model
+    print("\n", "-" * 8, "Initializing NN", "-" * 8)
     model = ActionRecogntionNN(hparams.in_channels, stanford_loader.num_classes).to(
         device
     )
-
-    # Define loss function and optimizer
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=hparams.learning_rate)
-
+    print("Model:: Initialized NN, optimizer and criterion")
+    print("\n", "-" * 8, "Model Training and Validation", "-" * 8)
     for epoch in range(hparams.num_epochs):
         # training stage
         model, loss = train(model, stanford_loader.train, device, criterion, optimizer)
-        print(
-            f"Epoch {epoch + 1}/{hparams.num_epochs}, Training Loss: {loss.item():.4f}"
-        )
+        print(f"Epoch {epoch + 1}/{hparams.num_epochs}, Training Loss: {loss:.4f}")
 
         # validation stage
         model, avg_val_loss = validate(
