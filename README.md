@@ -60,8 +60,7 @@ The script can be configured through the usage of environment variables. The env
 | Name | Description | Type | Default |
 | `NN_IMAGE_READ_MODE` | Mode of image read (GRAY or RGB) | `str` | "GRAY" |
 | `NN_LEARNING_RATE` | The percentage of learning rate | `float` | 0.001 |
-| `NN_TRANSFORM_RESIZE` | The size of the image transformation | `int` | 256 |
-| `NN_TRAIN_BATCH_SIZE` | The batch size used for training | `int` | 100 |
+| `NN_TRANSFORM_RESIZE` | The size of the image transformation | `int` | 64 |
+| `NN_TRAIN_BATCH_SIZE` | The batch size used for training | `int` | 256 |
 | `NN_TEST_BATCH_SIZE` | The batch size used for testing | `int` | 50 |
-| `NN_VALIDATION_BATCH_SIZE` | The batch size used for validation | `int` | 50 |
 | `NN_NUM_EPOCHS` | The number of epochs during training | `int` | 5 |
