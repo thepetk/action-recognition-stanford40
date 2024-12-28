@@ -34,14 +34,21 @@ def test(
 ) -> "float":
     # Test stage
     model.eval()
+    correct = 0
+    total = 0
+    test_loss = 0.0
     with torch.no_grad():
-        test_loss = 0.0
         for test_inputs, test_targets in loader:
             test_inputs, test_targets = test_inputs.to(device), test_targets.to(device)
-            test_outputs = model(test_inputs)
-            test_loss += criterion(test_outputs, test_targets)
+            outputs = model(test_inputs)
+            test_loss += criterion(outputs, test_targets)
+            _, predicted = torch.max(outputs.data, 1)
+            total += test_targets.size(0)
+            correct += (predicted == test_targets).sum().item()
 
-        return test_loss / len(loader)
+    accuracy = 100 * correct / total
+    avg_test_loss = test_loss / len(loader)
+    return avg_test_loss, accuracy
 
 
 def validate(
