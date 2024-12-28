@@ -13,6 +13,9 @@ class PretrainedNN(nn.Module):
             64, 128, kernel_size=5, stride=2, padding=3, bias=False
         )
         self.resnet.fc = nn.Linear(512, num_classes)
+        self.dropout = nn.Dropout(p=0.5)
 
     def forward(self, x):
-        return self.resnet(x)
+        x = self.resnet(x)
+        x = self.dropout(x)
+        return x
