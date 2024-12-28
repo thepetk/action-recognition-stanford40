@@ -1,0 +1,2 @@
+class DataSeparationError(Exception):
+    pass
