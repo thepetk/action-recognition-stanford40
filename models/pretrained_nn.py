@@ -9,13 +9,16 @@ class PretrainedNN(nn.Module):
         self.resnet.conv1 = nn.Conv2d(
             in_channels, 64, kernel_size=7, stride=2, padding=3, bias=False
         )
-        self.resnet.conv2 = nn.Conv2d(
-            64, 128, kernel_size=5, stride=2, padding=3, bias=False
+        self.resnet.conv1.weight.data = self.resnet.conv1.weight.data.mean(
+            dim=1, keepdim=True
         )
-        self.resnet.fc = nn.Linear(512, num_classes)
-        self.dropout = nn.Dropout(p=0.5)
+        self.resnet.layer3 = nn.Sequential(self.resnet.layer3, nn.Dropout(p=0.3))
+        self.resnet.fc = nn.Sequential(
+            nn.Linear(512, 256),
+            nn.ReLU(),
+            nn.Dropout(p=0.5),
+            nn.Linear(256, num_classes),
+        )
 
     def forward(self, x):
-        x = self.resnet(x)
-        x = self.dropout(x)
-        return x
+        return self.resnet(x)
