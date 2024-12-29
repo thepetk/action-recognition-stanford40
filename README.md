@@ -45,7 +45,7 @@ The script can be configured through the usage of environment variables. The env
 
 | Name               | Description                                      | Type    | Default |
 | ------------------ | ------------------------------------------------ | ------- | ------- |
-| `VALIDATION_RATIO` | The percentage of train data used for validation | `float` | 0.20    |
+| `VALIDATION_RATIO` | The percentage of train data used for validation | `float` | 0.05    |
 | `TEST_RATIO`       | The percentage of full data used for test        | `float` | 0.15    |
 
 #### Directory Paths
@@ -59,8 +59,8 @@ The script can be configured through the usage of environment variables. The env
 
 | Name | Description | Type | Default |
 | `NN_IMAGE_READ_MODE` | Mode of image read (GRAY or RGB) | `str` | "RGB" |
-| `NN_LEARNING_RATE` | The percentage of learning rate | `float` | 0.001 |
-| `NN_TRANSFORM_RESIZE` | The size of the image transformation | `int` | 64 |
-| `NN_TRAIN_BATCH_SIZE` | The batch size used for training | `int` | 256 |
+| `NN_LEARNING_RATE` | The percentage of learning rate | `float` | 1e-4 |
+| `NN_TRANSFORM_RESIZE` | The size of the image transformation | `int` | 128 |
+| `NN_TRAIN_BATCH_SIZE` | The batch size used for training | `int` | 128 |
 | `NN_TEST_BATCH_SIZE` | The batch size used for testing | `int` | 50 |
-| `NN_NUM_EPOCHS` | The number of epochs during training | `int` | 5 |
+| `NN_NUM_EPOCHS` | The number of epochs during training | `int` | 50 |
