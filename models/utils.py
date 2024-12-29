@@ -34,7 +34,7 @@ def test(
     loader: "DataLoader",
     device: "torch.device",
     criterion: "nn.CrossEntropyLoss",
-) -> "float":
+) -> "tuple[float, float]":
     # Test stage
     model.eval()
     correct = 0
