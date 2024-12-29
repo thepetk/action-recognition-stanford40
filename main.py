@@ -96,9 +96,7 @@ def main() -> "None":
                 f"[Epoch {epoch + 1}/{hparams.num_epochs}]\tTrain Loss: {avg_train_loss:.4f}\t|\tValidation Loss: {avg_val_loss:.4f}"
             )
 
-        avg_test_loss, accuracy, all_probs, all_labels = test(
-            model, stanford_loader.test, device, criterion
-        )
+        avg_test_loss, accuracy = test(model, stanford_loader.test, device, criterion)
         print(f"Test Loss: {avg_test_loss:.4f} | Accuracy: {accuracy:.2f}%")
 
         plot(accuracy, train_losses, val_losses, SAVE_PLOT)
