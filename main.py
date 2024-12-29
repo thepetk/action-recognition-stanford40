@@ -6,8 +6,10 @@ from torchvision import transforms
 from sfd40 import Stanford40DataSplitter, load_data, get_hyperparameters
 from models import PretrainedNN, CustomActionRecogntionNN, validate, train, test
 import os
+from plot import plot
 
 MODEL = os.getenv("MODEL", "")
+SAVE_PLOT = bool(os.getenv("SAVE_POLT", False))
 
 
 class ModelChoice:
@@ -43,6 +45,7 @@ def main() -> "None":
     transform = transforms.Compose(
         [
             transforms.Grayscale(),
+            transforms.RandomHorizontalFlip(),
             transforms.Resize((hparams.resize, hparams.resize)),
             transforms.ToTensor(),
             transforms.Normalize((0.5,), (0.5,)),
@@ -77,22 +80,28 @@ def main() -> "None":
             f"[{idx+1}/{len(CHOSEN_MODELS)}] Model Training and Validation",
             "-" * 8,
         )
+        train_losses: "list[float]" = []
+        val_losses: "list[float]" = []
         for epoch in range(hparams.num_epochs):
-            model, loss = train(
+            model, avg_train_loss = train(
                 model, stanford_loader.train, device, criterion, optimizer
             )
-            print(f"Epoch {epoch + 1}/{hparams.num_epochs}, Training Loss: {loss:.4f}")
+            train_losses.append(avg_train_loss)
 
             model, avg_val_loss = validate(
                 model, stanford_loader.validation, device, criterion
             )
+            val_losses.append(avg_val_loss)
             print(
-                f"Epoch {epoch + 1}/{hparams.num_epochs}, Validation Loss: {avg_val_loss:.4f}"
+                f"[Epoch {epoch + 1}/{hparams.num_epochs}]\tTrain Loss: {avg_train_loss:.4f}\t|\tValidation Loss: {avg_val_loss:.4f}"
             )
 
-        avg_test_loss, accuracy = test(model, stanford_loader.test, device, criterion)
+        avg_test_loss, accuracy, all_probs, all_labels = test(
+            model, stanford_loader.test, device, criterion
+        )
         print(f"Test Loss: {avg_test_loss:.4f} | Accuracy: {accuracy:.2f}%")
 
+        plot(accuracy, train_losses, val_losses, SAVE_PLOT)
         torch.save(model.state_dict(), f"segmentation_{model_name}_.pth")
 
 
