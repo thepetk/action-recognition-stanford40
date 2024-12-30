@@ -45,5 +45,6 @@ jobs:
           export NN_VAL_BATCH_SIZE=1
           export IMAGE_FILES_PATH="test-resources/img"
           export XML_FILES_PATH="test-resources/xml"
-          MODEL="pretrained"
+          export SAVE_AS_YAML=0
+          export MODEL="pretrained"
           uv run main.py
