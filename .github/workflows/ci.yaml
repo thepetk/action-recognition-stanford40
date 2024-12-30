@@ -32,6 +32,7 @@ jobs:
 
       - name: Check Type
         run: |
+          pip install mypy
           mypy .
 
       - name: Run tests
