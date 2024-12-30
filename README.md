@@ -56,3 +56,7 @@ The script can be configured through the usage of environment variables. The env
 | `NN_TEST_BATCH_SIZE`  | The batch size used for testing      | `int`   | 50      |
 | `NN_VAL_BATCH_SIZE`   | The batch size used for validation   | `int`   | 15      |
 | `NN_NUM_EPOCHS`       | The number of epochs during training | `int`   | 25      |
+
+## Test Resources
+
+The test resources used are images fetched directly from the Stanford40 public dataset.
