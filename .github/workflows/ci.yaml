@@ -32,7 +32,7 @@ jobs:
 
       - name: Check Type
         run: |
-          pip install mypy
+          pip install mypy types-pyyaml
           mypy .
 
       - name: Run tests
