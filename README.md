@@ -29,7 +29,17 @@ uv run main.py
 
 ### Available Configurations:
 
-The script can be configured through the usage of environment variables. The env vars used are:
+The script can be configured through the usage of environment variables. An example usage with custom configuration is:
+
+```bash
+# Increased number of epochs
+NN_NUM_EPOCHS=500 uv run main.py
+
+# Increased number of epochs and only pretrained model selected
+NN_NUM_EPOCHS=500 MODEL="pretrained" uv run main.py
+```
+
+The env vars used are:
 
 #### Data Ratio
 
