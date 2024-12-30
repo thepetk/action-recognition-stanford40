@@ -34,7 +34,7 @@ def train(
         loss.backward()
         optimizer.step()
     avg_train_loss = total_loss / len(train_loader)
-    return model, avg_train_loss
+    return model, round(avg_train_loss, 6)
 
 
 def test(
@@ -64,7 +64,7 @@ def test(
 
     accuracy = 100 * correct / total
     avg_test_loss = total_loss / len(loader)
-    return avg_test_loss, accuracy
+    return round(avg_test_loss, 6), accuracy
 
 
 def validate(
@@ -89,4 +89,4 @@ def validate(
             total_loss += val_loss
 
         avg_val_loss = total_loss / len(loader)
-        return model, avg_val_loss
+        return model, round(avg_val_loss, 6)
