@@ -72,7 +72,7 @@ The env vars used are:
 | Name        | Description                                                                            | Type                                                                                           | Default  |
 | ----------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | -------- | ------ |
 | `MODEL`     | Specify which model you want to use ["pretrained"                                      | "custom"]. If missing the script will iterate over both models (first custom, then pretrained) | `string` | "both" |
-| `SAVE_PLOT` | Skips showing of the plot and saves it in a file instead (only supported for cpu case) | `bool`                                                                                         | False    |
+| `SAVE_PLOT` | Skips showing of the plot and saves it in a file instead (only supported for cpu case) |                                                                                                | `bool`   | False  |
 
 ## Test Resources
 
