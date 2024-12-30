@@ -4,14 +4,16 @@ import torch
 import torch.nn as nn
 from torch import optim
 
+from models import PretrainedNN
+
 
 def train(
-    model: "CustomActionRecogntionNN",
+    model: "CustomActionRecogntionNN | PretrainedNN",
     train_loader: "DataLoader",
     device: "torch.device",
     criterion: "nn.CrossEntropyLoss",
     optimizer: "optim.Adam",
-) -> "tuple[CustomActionRecogntionNN, float]":
+) -> "tuple[CustomActionRecogntionNN | PretrainedNN, float]":
     model.train()
     total_loss = 0.0
     for inputs, targets in train_loader:
@@ -30,7 +32,7 @@ def train(
 
 
 def test(
-    model: "CustomActionRecogntionNN",
+    model: "CustomActionRecogntionNN | PretrainedNN",
     loader: "DataLoader",
     device: "torch.device",
     criterion: "nn.CrossEntropyLoss",
@@ -56,11 +58,11 @@ def test(
 
 
 def validate(
-    model: "CustomActionRecogntionNN",
+    model: "CustomActionRecogntionNN | PretrainedNN",
     loader: "DataLoader",
     device: "torch.device",
     criterion: "nn.CrossEntropyLoss",
-) -> "tuple[CustomActionRecogntionNN, float]":
+) -> "tuple[CustomActionRecogntionNN | PretrainedNN, float]":
     model.eval()
     with torch.no_grad():
         total_loss = 0.0

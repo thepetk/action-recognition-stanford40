@@ -1,6 +1,12 @@
 import random
 import os
-from sfd40.utils import Stanford40DataItem, DATA_ITEMS, get_action
+from sfd40.utils import (
+    Stanford40DataItem,
+    Stanford40DataItemCollection,
+    DATA_ITEMS,
+    get_action,
+)
+from sfd40.errors import XMLFileNotFoundError
 from sfd40.defaults import (
     IMAGE_FILES_PATH,
     XML_FILES_PATH,
@@ -55,12 +61,12 @@ class Stanford40DataSplitter:
     def test_size(self) -> "int":
         return int(self.full_size * self.test_ratio)
 
-    def _get_xml_file(self, name: "str") -> "str | None":
+    def _get_xml_file(self, name: "str") -> "str":
         xml_name = name.split("/")[-1].split(".")[0]
         for xml_path in self.xml_files:
             if xml_name in xml_path:
                 return xml_path
-        return None
+        raise XMLFileNotFoundError(f"{xml_name} not found")
 
     @property
     def _all_items(self) -> "DATA_ITEMS":
@@ -117,11 +123,15 @@ class Stanford40DataSplitter:
             idx += 1
         return labels
 
-    def seperate(self) -> "tuple[DATA_ITEMS, DATA_ITEMS, DATA_ITEMS]":
+    def seperate(self) -> "Stanford40DataItemCollection":
         if not self.data_separation_is_valid:
             raise DataSeparationError("Sets not equal to full size of images")
         print("Splitter:: separated dataset into 3 datasets")
         print(f"Splitter:: train: {len(self.train_items)} items")
         print(f"Splitter:: test: {len(self.test_items)} items")
         print(f"Splitter:: validation: {len(self.validation_items)} items")
-        return (self.train_items, self.test_items, self.validation_items)
+        return Stanford40DataItemCollection(
+            train=self.train_items,
+            test=self.test_items,
+            validation=self.validation_items,
+        )

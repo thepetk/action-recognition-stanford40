@@ -1,38 +1,35 @@
-from torchvision import transforms
 from torch.utils.data import DataLoader
 from sfd40.utils import (
-    DATA_ITEMS,
     Stanford40HyperParameters,
     Stanford40DataLoader,
+    Stanford40DataItemCollection,
 )
-
+from sfd40.transforms import Stanford40Transform
 from sfd40.dataset import Stanford40Dataset
 
 
 def load_data(
     labels: "dict[str, int]",
-    train_items: "DATA_ITEMS",
-    test_items: "DATA_ITEMS",
-    validation_items: "DATA_ITEMS",
-    transform: "transforms.Compose",
+    items_collection: "Stanford40DataItemCollection",
+    transform: "Stanford40Transform",
     hparams: "Stanford40HyperParameters",
 ) -> "Stanford40DataLoader":
     train_dataset = Stanford40Dataset(
-        train_items,
+        items_collection.train,
         labels=labels,
-        transform=transform,
+        transform=transform.train,
         read_mode=hparams.image_read_mode,
     )
     test_dataset = Stanford40Dataset(
-        test_items,
+        items_collection.test,
         labels=labels,
-        transform=transform,
+        transform=transform.test_val,
         read_mode=hparams.image_read_mode,
     )
     val_dataset = Stanford40Dataset(
-        validation_items,
+        items_collection.validation,
         labels=labels,
-        transform=transform,
+        transform=transform.test_val,
         read_mode=hparams.image_read_mode,
     )
     print("Loader:: Loaded 3 datasets")
@@ -43,6 +40,6 @@ def load_data(
         ),
         test=DataLoader(test_dataset, batch_size=hparams.test_batch_size, shuffle=True),
         validation=DataLoader(
-            val_dataset, batch_size=hparams.train_batch_size, shuffle=False
+            val_dataset, batch_size=hparams.val_batch_size, shuffle=True
         ),
     )

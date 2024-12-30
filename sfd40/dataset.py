@@ -26,7 +26,7 @@ class Stanford40Dataset(Dataset):
     def __len__(self) -> "int":
         return len(self.image_items)
 
-    def __getitem__(self, idx) -> "tuple[torch.Tensor, torch.Tensor]":
+    def __getitem__(self, idx) -> "tuple[torch.Tensor, int]":
         image = read_image(self.image_items[idx].image, mode=self.read_mode)
         action = get_action(self.image_items[idx].xml)
 
@@ -36,4 +36,4 @@ class Stanford40Dataset(Dataset):
         if self.transform:
             image = self.transform(image)
 
-        return image, self.labels[action]
+        return image, self.labels[action]  # type: ignore

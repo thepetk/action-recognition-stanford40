@@ -15,18 +15,8 @@ The default approach shown in the readme is based on `uv`, however one can insta
 First, we start by exporting the xml and image directories so our script is able to fetch the two different dirs:
 
 ```bash
-export ROOT_PATH="path-to-downloaded-stanford40-dataset"
-export IMAGE_FILES_PATH="relative-path-stanford40-jpeg-images-dir"
-export XML_FILES_PATH="relative-path-stanford40-xml-annotations-dir"
-```
-
-### Install Dependencies
-
-You can create a new virtual environment using `uv` and then sync all the depenedencies:
-
-```bash
-uv venv --python 3.10
-uv sync
+export IMAGE_FILES_PATH="absolute-path-stanford40-jpeg-images-dir"
+export XML_FILES_PATH="absolute-path-stanford40-xml-annotations-dir"
 ```
 
 ## Usage
@@ -51,7 +41,6 @@ The script can be configured through the usage of environment variables. The env
 #### Directory Paths
 
 | Name | Description | Type | Default |
-| `ROOT_PATH` | The root path of the dataset | `string` | "Stanford40" |
 | `IMAGE_FILES_PATH` | The path to the jpeg images dir | `string` | "JPEGImages" |
 | `XML_FILES_PATH` | The path to the xml annotations dir | `string` | "XMLAnnotations" |
 
@@ -59,8 +48,9 @@ The script can be configured through the usage of environment variables. The env
 
 | Name | Description | Type | Default |
 | `NN_IMAGE_READ_MODE` | Mode of image read (GRAY or RGB) | `str` | "RGB" |
-| `NN_LEARNING_RATE` | The percentage of learning rate | `float` | 1e-4 |
-| `NN_TRANSFORM_RESIZE` | The size of the image transformation | `int` | 128 |
+| `NN_LEARNING_RATE` | The percentage of learning rate | `float` | 0.001 |
+| `NN_TRANSFORM_RESIZE` | The size of the image transformation | `int` | 224 |
 | `NN_TRAIN_BATCH_SIZE` | The batch size used for training | `int` | 128 |
 | `NN_TEST_BATCH_SIZE` | The batch size used for testing | `int` | 50 |
-| `NN_NUM_EPOCHS` | The number of epochs during training | `int` | 50 |
+| `NN_VAL_BATCH_SIZE` | The batch size used for validation | `int` | 15 |
+| `NN_NUM_EPOCHS` | The number of epochs during training | `int` | 20 |

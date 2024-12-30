@@ -2,18 +2,18 @@ import os
 from torchvision.io import ImageReadMode
 
 # File paths
-ROOT_PATH = os.getenv("ROOT_PATH", "Stanford40")
-IMAGE_FILES_PATH = f"{ROOT_PATH}/{os.getenv('IMAGE_FILES_PATH', 'JPEGImages')}"
-XML_FILES_PATH = f"{ROOT_PATH}/{os.getenv('XML_FILES_PATH', 'XMLAnnotations')}"
+IMAGE_FILES_PATH = os.getenv("IMAGE_FILES_PATH", "Stanford40/JPEGImages")
+XML_FILES_PATH = os.getenv("XML_FILES_PATH", "Stanford40/XMLAnnotations")
 
 # NN config
 RAW_IMAGE_READ_MODE = os.getenv("NN_IMAGE_READ_MODE", "RGB")
 NN_IN_CHANNELS = 1
 NN_LEARNING_RATE = float(os.getenv("NN_LEARNING_RATE", 1e-4))
-NN_TRANSFORM_RESIZE = int(os.getenv("NN_TRANSFORM_RESIZE", 128))
+NN_TRANSFORM_RESIZE = int(os.getenv("NN_TRANSFORM_RESIZE", 224))
 NN_TRAIN_BATCH_SIZE = int(os.getenv("NN_TRAIN_BATCH_SIZE", 128))
 NN_TEST_BATCH_SIZE = int(os.getenv("NN_TEST_BATCH_SIZE", 50))
-NN_NUM_EPOCHS = int(os.getenv("NN_NUM_EPOCHS", 50))
+NN_VAL_BATCH_SIZE = int(os.getenv("NN_VAL_BATCH_SIZE", 15))
+NN_NUM_EPOCHS = int(os.getenv("NN_NUM_EPOCHS", 25))
 
 # Data Ratio
 TEST_RATIO = float(os.getenv("TEST_RATIO", 0.20))
