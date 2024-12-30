@@ -13,6 +13,7 @@ wheels/
 Stanford40/
 
 # Other resources
+examples/
 *.pdf
 *.pth
 

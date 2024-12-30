@@ -10,10 +10,10 @@ from sfd40 import (
 )
 from models import PretrainedNN, CustomActionRecogntionNN, validate, train, test
 import os
-from plot import plot
+from plot import plot, save_as_yaml
 
 MODEL = os.getenv("MODEL", "")
-SAVE_PLOT = bool(os.getenv("SAVE_POLT", False))
+SAVE_AS_YAML = bool(os.getenv("SAVE_AS_YAML", True))
 
 
 class ModelChoice:
@@ -114,8 +114,10 @@ def main() -> "None":
         print(f"Test Loss: {avg_test_loss:.4f} | Accuracy: {accuracy:.2f}%")
 
         if device.type == "cpu":
-            plot(accuracy, train_losses, val_losses, SAVE_PLOT)
-        torch.save(model.state_dict(), f"segmentation_{model_name}_.pth")
+            plot(accuracy, train_losses, val_losses)
+
+        if SAVE_AS_YAML:
+            save_as_yaml(accuracy, train_losses, val_losses, hparams)
 
 
 if __name__ == "__main__":

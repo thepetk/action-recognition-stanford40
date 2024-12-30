@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+from sfd40 import Stanford40HyperParameters
+import yaml
 
 
 def plot(
@@ -29,3 +31,32 @@ def plot(
     else:
         plt.grid(True)
         plt.show()
+
+
+def save_as_yaml(
+    accuracy: "float",
+    model_name: "str",
+    training_losses: "list[float]",
+    validation_losses: "list[float]",
+    hparams: "Stanford40HyperParameters",
+):
+    data = {
+        "eid": 0,
+        "nn": model_name,
+        "hyperparameters": {
+            "in_channels": hparams.in_channels,
+            "learning_rate": hparams.learning_rate,
+            "resize": hparams.resize,
+            "train_batch_size": hparams.train_batch_size,
+            "test_batch_size": hparams.test_batch_size,
+            "val_batch_size": hparams.val_batch_size,
+            "num_epochs": hparams.num_epochs,
+        },
+        "results": {
+            "accuracy": accuracy,
+            "training_losses": training_losses,
+            "validation_losses": validation_losses,
+        },
+    }
+    with open("_example.yml", "w") as outfile:
+        yaml.dump(data, outfile, default_flow_style=False)

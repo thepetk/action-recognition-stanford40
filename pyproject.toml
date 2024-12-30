@@ -4,7 +4,13 @@ version = "0.1.0"
 description = "An action recognition NN working with torch to detect action on still images"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["torch", "torchvision>=0.18.1", "matplotlib", "PyQt5"]
+dependencies = [
+    "torch",
+    "torchvision>=0.18.1",
+    "matplotlib",
+    "PyQt5",
+    "pyyaml>=6.0.2",
+]
 
 [tool.ruff]
 line-length = 88

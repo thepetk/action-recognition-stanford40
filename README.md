@@ -69,10 +69,10 @@ The env vars used are:
 
 #### Model and Plot
 
-| Name        | Description                                                                                                                                         | Type   | Default |
-| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------- |
-| `MODEL`     | Specify which model you want to use ["pretrained" or "custom"]. If missing the script will iterate over both models (first custom, then pretrained) | `str`  | "both"  |
-| `SAVE_PLOT` | Skips showing of the plot and saves it in a file instead (only supported for cpu case)                                                              | `bool` | False   |
+| Name           | Description                                                                                                                                         | Type   | Default |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------- |
+| `MODEL`        | Specify which model you want to use ["pretrained" or "custom"]. If missing the script will iterate over both models (first custom, then pretrained) | `str`  | "both"  |
+| `SAVE_AS_YAML` | Saves hyperparameters and results in yaml file                                                                                                      | `bool` | True    |
 
 ## Test Resources
 
