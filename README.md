@@ -1,4 +1,4 @@
-# Action Recognition NN
+# Action Recognition Neural Network Example
 
 This project is a workaround for a custom action recognition Neural Network, working with Torch and aims to classify given still images for human actions.
 
