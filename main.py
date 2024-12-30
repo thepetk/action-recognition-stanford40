@@ -117,7 +117,7 @@ def main() -> "None":
             plot(accuracy, train_losses, val_losses)
 
         if SAVE_AS_YAML:
-            save_as_yaml(accuracy, train_losses, val_losses, hparams)
+            save_as_yaml(accuracy, model_name, train_losses, val_losses, hparams)
 
 
 if __name__ == "__main__":

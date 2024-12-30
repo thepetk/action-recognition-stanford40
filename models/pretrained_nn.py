@@ -20,6 +20,7 @@ class PretrainedNN(nn.Module):
         self.resnet.layer3 = nn.Sequential(self.resnet.layer3, nn.Dropout(p=0.3))
         self.resnet.fc = nn.Sequential(
             nn.Linear(512, 256),
+            nn.BatchNorm1d(256),
             nn.ReLU(),
             nn.Dropout(p=0.5),
             nn.Linear(256, num_classes),

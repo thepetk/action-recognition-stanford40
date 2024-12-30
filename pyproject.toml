@@ -24,4 +24,8 @@ allow_redefinition = true
 ignore_missing_imports = true
 
 [dependency-groups]
-dev = ["mypy>=1.14.0", "ruff>=0.8.4"]
+dev = [
+    "mypy>=1.14.0",
+    "ruff>=0.8.4",
+    "types-pyyaml>=6.0.12.20241230",
+]
