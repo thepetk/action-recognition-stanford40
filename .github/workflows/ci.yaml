@@ -26,8 +26,9 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Check Format
-        run: |
-          ruff check .
+        uses: astral-sh/ruff-action@31a518504640beb4897d0b9f9e50a2a9196e75ba # v3.0.1
+        with:
+          version-file: "pyproject.toml"
 
       - name: Check Type
         run: |
@@ -44,4 +45,4 @@ jobs:
           export IMAGE_FILES_PATH="test-resources/img"
           export XML_FILES_PATH="test-resources/xml"
           MODEL="pretrained"
-          python3 main.py
+          uv run main.py
