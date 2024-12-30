@@ -12,7 +12,10 @@ class Stanford40Transform:
 
     @property
     def _augmentations(self) -> "list[Any]":
-        return [transforms.RandomHorizontalFlip()]
+        return [
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomRotation(degrees=15),
+        ]
 
     @property
     def _base(self) -> "list[Any]":
