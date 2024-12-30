@@ -7,28 +7,26 @@ class Stanford40Transform:
         self.resize = resize
 
     @property
-    def _grayscale(self) -> "list[Any]":
-        return [transforms.Grayscale()]
-
-    @property
-    def _augmentations(self) -> "list[Any]":
-        return [
-            transforms.RandomHorizontalFlip(p=0.5),
-            transforms.RandomRotation(degrees=15),
-        ]
-
-    @property
-    def _base(self) -> "list[Any]":
-        return [
-            transforms.Resize((self.resize, self.resize)),
-            transforms.ToTensor(),
-            transforms.Normalize((0.5,), (0.5,)),
-        ]
-
-    @property
     def train(self) -> "transforms.Compose":
-        return transforms.Compose(self._grayscale + self._augmentations + self._base)
+        return transforms.Compose(
+            [
+                transforms.Grayscale(),
+                transforms.RandomResizedCrop(self.resize),
+                transforms.RandomHorizontalFlip(p=0.5),
+                transforms.RandomRotation(degrees=10),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.5], std=[0.5]),
+            ]
+        )
 
     @property
     def test_val(self) -> "transforms.Compose":
-        return transforms.Compose(self._grayscale + self._base)
+        return transforms.Compose(
+            [
+                transforms.Grayscale(),
+                transforms.Resize(self.resize + 2),
+                transforms.CenterCrop(self.resize),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.5], std=[0.5]),
+            ]
+        )
