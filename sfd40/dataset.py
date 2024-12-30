@@ -6,6 +6,12 @@ from sfd40.utils import DATA_ITEMS, get_action
 
 
 class Stanford40Dataset(Dataset):
+    """
+    wraps the torch.utils.data and adds a few attributes
+    like labels, transform and read_mode in order to align
+    the dataset with the Stanford40 classification issue.
+    """
+
     def __init__(
         self,
         image_items: "DATA_ITEMS",

@@ -17,6 +17,10 @@ SAVE_PLOT = bool(os.getenv("SAVE_POLT", False))
 
 
 class ModelChoice:
+    """
+    Covers the model decision between pretrained or custom NN
+    """
+
     RESNET = "pretrained"
     CUSTOM = "custom"
 
@@ -90,11 +94,13 @@ def main() -> "None":
         train_losses: "list[float]" = []
         val_losses: "list[float]" = []
         for epoch in range(hparams.num_epochs):
+            # Training Stage
             model, avg_train_loss = train(
                 model, stanford_loader.train, device, criterion, optimizer
             )
             train_losses.append(avg_train_loss)
 
+            # Validation Stage
             model, avg_val_loss = validate(
                 model, stanford_loader.validation, device, criterion
             )
@@ -103,10 +109,12 @@ def main() -> "None":
                 f"[Epoch {epoch + 1}/{hparams.num_epochs}]\tTrain Loss: {avg_train_loss:.4f}\t|\tValidation Loss: {avg_val_loss:.4f}"
             )
 
+        # Testing Stage
         avg_test_loss, accuracy = test(model, stanford_loader.test, device, criterion)
         print(f"Test Loss: {avg_test_loss:.4f} | Accuracy: {accuracy:.2f}%")
 
-        plot(accuracy, train_losses, val_losses, SAVE_PLOT)
+        if device.type == "cpu":
+            plot(accuracy, train_losses, val_losses, SAVE_PLOT)
         torch.save(model.state_dict(), f"segmentation_{model_name}_.pth")
 
 

@@ -14,3 +14,7 @@ Stanford40/
 
 # Other resources
 *.pdf
+*.pth
+
+# Cache
+*_cache

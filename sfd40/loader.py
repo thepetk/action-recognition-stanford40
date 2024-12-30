@@ -14,6 +14,10 @@ def load_data(
     transform: "Stanford40Transform",
     hparams: "Stanford40HyperParameters",
 ) -> "Stanford40DataLoader":
+    """
+    returns a Stanford40 DataLoader object containing
+    3 loaders (train, test and validation)
+    """
     train_dataset = Stanford40Dataset(
         items_collection.train,
         labels=labels,

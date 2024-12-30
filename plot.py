@@ -7,6 +7,12 @@ def plot(
     val_losses: "list[float]",
     save_not_show: "bool" = False,
 ) -> None:
+    """
+    plot is responsible for all the plots generated
+    after the execution of the models. In this version
+    it only includes the evolution of training and
+    validation errors.
+    """
     _num_of_epochs = range(1, len(train_losses) + 1)
     plt.figure(figsize=(12, 8))
 

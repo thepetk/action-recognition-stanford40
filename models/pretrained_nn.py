@@ -3,6 +3,11 @@ from torchvision import models
 
 
 class PretrainedNN(nn.Module):
+    """
+    a pretrained solution that utilizes the resnet18 pretrained
+    model, aiming to classify human action from still images
+    """
+
     def __init__(self, in_channels: "int", num_classes: "int"):
         super(PretrainedNN, self).__init__()
         self.resnet = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)

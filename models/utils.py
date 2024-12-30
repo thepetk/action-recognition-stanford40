@@ -14,6 +14,12 @@ def train(
     criterion: "nn.CrossEntropyLoss",
     optimizer: "optim.Adam",
 ) -> "tuple[CustomActionRecogntionNN | PretrainedNN, float]":
+    """
+    covers the training stage of a given model over the data
+    of a given train loader, a device (cpu, cuda), a criterion
+    and an optimizer. Calculates and returns the avg training
+    loss of all batches along with the model.
+    """
     model.train()
     total_loss = 0.0
     for inputs, targets in train_loader:
@@ -37,7 +43,11 @@ def test(
     device: "torch.device",
     criterion: "nn.CrossEntropyLoss",
 ) -> "tuple[float, float]":
-    # Test stage
+    """
+    covers the testing stage of a given model over the data
+    of a given test loader, a device (cpu, cuda) and a criterion
+    Calculates and returns the avg test loss and the accuracy.
+    """
     model.eval()
     correct = 0
     total = 0
@@ -63,6 +73,12 @@ def validate(
     device: "torch.device",
     criterion: "nn.CrossEntropyLoss",
 ) -> "tuple[CustomActionRecogntionNN | PretrainedNN, float]":
+    """
+    covers the validation stage of a given model over the data
+    of a given validation loader, a device (cpu, cuda) and a
+    criterion. Calculates and returns the avg validation loss
+    of all batches along with the model.
+    """
     model.eval()
     with torch.no_grad():
         total_loss = 0.0

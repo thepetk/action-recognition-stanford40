@@ -3,6 +3,12 @@ import torch
 
 
 class CustomActionRecogntionNN(nn.Module):
+    """
+    an implementation of a custom neural network
+    that aims to classify human actions from still
+    images.
+    """
+
     def __init__(self, in_channels: "int", num_classes: "int") -> "None":
         super(CustomActionRecogntionNN, self).__init__()
         self.encoder = nn.Sequential(

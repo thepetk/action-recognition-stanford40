@@ -17,6 +17,21 @@ from sfd40.errors import DataSeparationError
 
 
 class Stanford40DataSplitter:
+    """
+    aims to pre-organize and map the files inside
+    the Stanford40 dataset before any initialization
+    takes place. Contains two main functions:
+
+    1. generate_labels: generates all lables found
+    for the given set of images. Each label key is
+    an action and each value an assigned int.
+
+    2. separate: separates randomly the list of image
+    files into three sets (train, test, validation).
+    Makes sure that each image is mapped to an xml file
+    with the usage of Stanford40DataItem class.
+    """
+
     def __init__(
         self,
         image_files_path: "str" = IMAGE_FILES_PATH,
