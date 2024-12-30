@@ -40,11 +40,10 @@ def initialize_model(
     model_name: "str",
     in_channels: "int",
     num_classes: "int",
-    resize: "int",
     device: "torch.device",
 ) -> "CustomActionRecogntionNN | PretrainedNN":
     if model_name == ModelChoice.CUSTOM:
-        return CustomActionRecogntionNN(in_channels, num_classes, resize).to(device)
+        return CustomActionRecogntionNN(in_channels, num_classes).to(device)
     else:
         return PretrainedNN(in_channels, num_classes).to(device)
 
@@ -76,7 +75,6 @@ def main() -> "None":
             model_name,
             hparams.in_channels,
             stanford_loader.num_classes,
-            hparams.resize,
             device,
         )
         criterion = nn.CrossEntropyLoss()
