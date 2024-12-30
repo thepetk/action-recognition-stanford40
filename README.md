@@ -27,7 +27,7 @@ In order to run the Neural Network example you can simply run:
 uv run main.py
 ```
 
-### Available Configurations:
+### Available Configurations
 
 The script can be configured through the usage of environment variables. An example usage with custom configuration is:
 
