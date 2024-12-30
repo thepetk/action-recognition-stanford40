@@ -40,17 +40,19 @@ The script can be configured through the usage of environment variables. The env
 
 #### Directory Paths
 
-| Name | Description | Type | Default |
-| `IMAGE_FILES_PATH` | The path to the jpeg images dir | `string` | "JPEGImages" |
-| `XML_FILES_PATH` | The path to the xml annotations dir | `string` | "XMLAnnotations" |
+| Name               | Description                         | Type     | Default          |
+| ------------------ | ----------------------------------- | -------- | ---------------- |
+| `IMAGE_FILES_PATH` | The path to the jpeg images dir     | `string` | "JPEGImages"     |
+| `XML_FILES_PATH`   | The path to the xml annotations dir | `string` | "XMLAnnotations" |
 
 #### Neural Network HyperParameters
 
-| Name | Description | Type | Default |
-| `NN_IMAGE_READ_MODE` | Mode of image read (GRAY or RGB) | `str` | "RGB" |
-| `NN_LEARNING_RATE` | The percentage of learning rate | `float` | 1e-4 |
-| `NN_TRANSFORM_RESIZE` | The size of the image transformation | `int` | 224 |
-| `NN_TRAIN_BATCH_SIZE` | The batch size used for training | `int` | 128 |
-| `NN_TEST_BATCH_SIZE` | The batch size used for testing | `int` | 50 |
-| `NN_VAL_BATCH_SIZE` | The batch size used for validation | `int` | 15 |
-| `NN_NUM_EPOCHS` | The number of epochs during training | `int` | 25 |
+| Name                  | Description                          | Type    | Default |
+| --------------------- | ------------------------------------ | ------- | ------- |
+| `NN_IMAGE_READ_MODE`  | Mode of image read (GRAY or RGB)     | `str`   | "RGB"   |
+| `NN_LEARNING_RATE`    | The percentage of learning rate      | `float` | 1e-4    |
+| `NN_TRANSFORM_RESIZE` | The size of the image transformation | `int`   | 224     |
+| `NN_TRAIN_BATCH_SIZE` | The batch size used for training     | `int`   | 128     |
+| `NN_TEST_BATCH_SIZE`  | The batch size used for testing      | `int`   | 50      |
+| `NN_VAL_BATCH_SIZE`   | The batch size used for validation   | `int`   | 15      |
+| `NN_NUM_EPOCHS`       | The number of epochs during training | `int`   | 25      |
