@@ -7,7 +7,7 @@ XML_FILES_PATH = os.getenv("XML_FILES_PATH", "Stanford40/XMLAnnotations")
 
 # NN config
 RAW_IMAGE_READ_MODE = os.getenv("NN_IMAGE_READ_MODE", "RGB")
-NN_IN_CHANNELS = 1
+NN_IN_CHANNELS = 3
 NN_LEARNING_RATE = float(os.getenv("NN_LEARNING_RATE", 1e-4))
 NN_TRANSFORM_RESIZE = int(os.getenv("NN_TRANSFORM_RESIZE", 224))
 NN_TRAIN_BATCH_SIZE = int(os.getenv("NN_TRAIN_BATCH_SIZE", 128))

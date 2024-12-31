@@ -15,12 +15,16 @@ class Stanford40Transforms:
     def train(self) -> "transforms.Compose":
         return transforms.Compose(
             [
-                transforms.Grayscale(),
                 transforms.RandomResizedCrop(self.resize),
-                transforms.RandomHorizontalFlip(p=0.5),
-                transforms.RandomRotation(degrees=10),
+                transforms.RandomHorizontalFlip(),
+                transforms.RandomApply(
+                    [transforms.ColorJitter(0.4, 0.4, 0.4, 0.1)], p=0.8
+                ),
+                transforms.RandomGrayscale(0.2),
                 transforms.ToTensor(),
-                transforms.Normalize(mean=[0.5], std=[0.5]),
+                transforms.Normalize(
+                    (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
+                ),
             ]
         )
 
@@ -28,10 +32,12 @@ class Stanford40Transforms:
     def test_val(self) -> "transforms.Compose":
         return transforms.Compose(
             [
-                transforms.Grayscale(),
                 transforms.Resize(self.resize + 2),
                 transforms.CenterCrop(self.resize),
+                transforms.RandomGrayscale(0.2),
                 transforms.ToTensor(),
-                transforms.Normalize(mean=[0.5], std=[0.5]),
+                transforms.Normalize(
+                    (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
+                ),
             ]
         )

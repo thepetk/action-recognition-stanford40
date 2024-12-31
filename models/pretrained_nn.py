@@ -15,7 +15,7 @@ class PretrainedNN(nn.Module):
             in_channels, 64, kernel_size=7, stride=2, padding=3, bias=False
         )
         self.resnet.conv1.weight.data = self.resnet.conv1.weight.data.mean(
-            dim=1, keepdim=True
+            dim=in_channels, keepdim=True
         )
         self.resnet.layer3 = nn.Sequential(self.resnet.layer3, nn.Dropout(p=0.3))
         self.resnet.fc = nn.Sequential(
