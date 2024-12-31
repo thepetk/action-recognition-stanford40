@@ -10,10 +10,10 @@ RAW_IMAGE_READ_MODE = os.getenv("NN_IMAGE_READ_MODE", "RGB")
 NN_IN_CHANNELS = 3
 NN_LEARNING_RATE = float(os.getenv("NN_LEARNING_RATE", 1e-4))
 NN_TRANSFORM_RESIZE = int(os.getenv("NN_TRANSFORM_RESIZE", 224))
-NN_TRAIN_BATCH_SIZE = int(os.getenv("NN_TRAIN_BATCH_SIZE", 128))
-NN_TEST_BATCH_SIZE = int(os.getenv("NN_TEST_BATCH_SIZE", 50))
+NN_TRAIN_BATCH_SIZE = int(os.getenv("NN_TRAIN_BATCH_SIZE", 64))
+NN_TEST_BATCH_SIZE = int(os.getenv("NN_TEST_BATCH_SIZE", 20))
 NN_VAL_BATCH_SIZE = int(os.getenv("NN_VAL_BATCH_SIZE", 15))
-NN_NUM_EPOCHS = int(os.getenv("NN_NUM_EPOCHS", 25))
+NN_NUM_EPOCHS = int(os.getenv("NN_NUM_EPOCHS", 50))
 
 # Data Ratio
 TEST_RATIO = float(os.getenv("TEST_RATIO", 0.20))

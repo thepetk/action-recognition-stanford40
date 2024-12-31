@@ -26,7 +26,7 @@ class ModelManager:
         chosen_models: "list[str]" = CHOSEN_MODELS,
         save_as_yaml: "bool" = SAVE_AS_YAML,
     ):
-        self.criterion = nn.CrossEntropyLoss()
+        self.criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
         self.optimizer: "optim.Adam | None" = None
         self.current_model: "NN_MODEL | None" = None
         self.chosen_models = chosen_models
