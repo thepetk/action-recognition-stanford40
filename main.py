@@ -60,9 +60,9 @@ def main() -> "None":
             print(
                 f"[Epoch {epoch + 1}/{hparams.num_epochs}]",
                 "\t",
-                "Train Loss: {avg_train_loss:.4f}",
+                f"Train Loss: {avg_train_loss:.4f}",
                 "\t|\t",
-                "Validation Loss: {avg_val_loss:.4f}",
+                f"Validation Loss: {avg_val_loss:.4f}",
             )
 
         # Testing Stage

@@ -72,6 +72,9 @@ class Stanford40DataManager:
             image_read_mode,
         )
         self.labels = self._splitter.generate_labels()
+        self.train_loader = self.get_train_loader()
+        self.test_loader = self.get_test_loader()
+        self.validation_loader = self.get_validation_loader()
 
     def _get_dataset(
         self, transform: "transforms.Compose", image_items: "list[Stanford40DataItem]"
@@ -132,8 +135,7 @@ class Stanford40DataManager:
     def num_classes(self) -> "int":
         return len(self.labels.keys())
 
-    @property
-    def train_loader(self) -> "DataLoader":
+    def get_train_loader(self) -> "DataLoader":
         return self._get_loader(
             self._transforms.train,
             self._collection.train,
@@ -141,8 +143,7 @@ class Stanford40DataManager:
             shuffle=True,
         )
 
-    @property
-    def test_loader(self) -> "DataLoader":
+    def get_test_loader(self) -> "DataLoader":
         return self._get_loader(
             self._transforms.test_val,
             self._collection.test,
@@ -150,8 +151,7 @@ class Stanford40DataManager:
             shuffle=True,
         )
 
-    @property
-    def validation_loader(self) -> "DataLoader":
+    def get_validation_loader(self) -> "DataLoader":
         return self._get_loader(
             self._transforms.test_val,
             self._collection.validation,
