@@ -33,19 +33,8 @@ jobs:
       - name: Check Type
         run: |
           pip install mypy types-pyyaml
-          mypy .
+          make check-type
 
       - name: Run tests
         run: |
-          export NN_NUM_EPOCHS=1
-          export NN_TRANSFORM_RESIZE=64
-          export SAVE_PLOT=1
-          export NN_TRAIN_BATCH_SIZE=5
-          export NN_TEST_BATCH_SIZE=1
-          export NN_VAL_BATCH_SIZE=1
-          export IMAGE_FILES_PATH="test-resources/img"
-          export XML_FILES_PATH="test-resources/xml"
-          export SAVE_AS_YAML=0
-          export MODEL="pretrained"
-          export TEST_MODE=1
-          uv run main.py
+          make test
