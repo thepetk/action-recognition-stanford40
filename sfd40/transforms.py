@@ -2,6 +2,12 @@ from torchvision import transforms
 
 
 class Stanford40Transforms:
+    """
+    provides two ways of transformation:
+    1. Train (with augmentations)
+    2. Test or Validation (without augmentations)
+    """
+
     def __init__(self, resize: "int") -> "None":
         self.resize = resize
 

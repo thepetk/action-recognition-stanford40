@@ -1,14 +1,23 @@
 # Action Recognition NN
 
-This project is a workaround for a custom action recognition Neural Network, working with Torch and aims to classify given still images for human actions.
+This project is a set of example workarounds for action recognition & deep learning. It's based on PyTorch and aims to classify given still images for human actions.
 
 ## Dataset
 
-The dataset used for this example is the [Stanford 40 Actions](http://vision.stanford.edu/Datasets/40actions.html), containing more than 9.500 images, capturing human actions. To download the dataset check [here](http://vision.stanford.edu/Datasets/Stanford40.zip)
+The dataset that this project is based is the [Stanford 40 Actions](http://vision.stanford.edu/Datasets/40actions.html), containing more than 9.500 images, capturing human actions. To download the dataset check [here](http://vision.stanford.edu/Datasets/Stanford40.zip)
+
+## Design
+
+The project is based on two main packages, `models` and `sfd40`:
+
+- **models**: Covers all the functionality around the neural networks.
+- **sfd40**: Covers all the functionality around the Stanford 40 data load.
+
+Both projects have a manager class which is the main class for every package. Those two classes play important role in the `main.py` file.
 
 ## Installation
 
-The default approach shown in the readme is based on `uv`, however one can install all dependencies using other tools as well.
+The default approach shown in the readme is based on `uv`, however one can install all dependencies using other tools as well. To install `uv` check [here](https://docs.astral.sh/uv/getting-started/installation/).
 
 ### Set Dataset Paths
 
