@@ -33,7 +33,7 @@ export XML_FILES_PATH="absolute-path-stanford40-xml-annotations-dir"
 In order to run the Neural Network example you can simply run:
 
 ```bash
-uv run main.py
+make run
 ```
 
 ### Available Configurations
@@ -42,10 +42,10 @@ The script can be configured through the usage of environment variables. An exam
 
 ```bash
 # Increased number of epochs
-NN_NUM_EPOCHS=500 uv run main.py
+NN_NUM_EPOCHS=500 make run
 
 # Increased number of epochs and only pretrained model selected
-NN_NUM_EPOCHS=500 MODEL="pretrained" uv run main.py
+NN_NUM_EPOCHS=500 MODEL="pretrained" make run
 ```
 
 The env vars used are:
