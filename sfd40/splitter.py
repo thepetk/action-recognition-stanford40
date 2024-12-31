@@ -3,16 +3,9 @@ import os
 from sfd40.utils import (
     Stanford40DataItem,
     Stanford40DataItemCollection,
-    DATA_ITEMS,
     get_action,
 )
 from sfd40.errors import XMLFileNotFoundError
-from sfd40.defaults import (
-    IMAGE_FILES_PATH,
-    XML_FILES_PATH,
-    TEST_RATIO,
-    VALIDATION_RATIO,
-)
 from sfd40.errors import DataSeparationError
 
 
@@ -34,10 +27,10 @@ class Stanford40DataSplitter:
 
     def __init__(
         self,
-        image_files_path: "str" = IMAGE_FILES_PATH,
-        xml_files_path: "str" = XML_FILES_PATH,
-        test_ratio: "float" = TEST_RATIO,
-        validation_ratio: "float" = VALIDATION_RATIO,
+        image_files_path: "str",
+        xml_files_path: "str",
+        test_ratio: "float",
+        validation_ratio: "float",
     ) -> "None":
         self.image_files = self._get_image_files(image_files_path)
         self.xml_files = self._get_xml_files(xml_files_path)
@@ -84,14 +77,14 @@ class Stanford40DataSplitter:
         raise XMLFileNotFoundError(f"{xml_name} not found")
 
     @property
-    def _all_items(self) -> "DATA_ITEMS":
+    def _all_items(self) -> "list[Stanford40DataItem]":
         return [
             Stanford40DataItem(image=img, xml=self._get_xml_file(img))
             for img in self.image_files
         ]
 
     @property
-    def test_items(self) -> "DATA_ITEMS":
+    def test_items(self) -> "list[Stanford40DataItem]":
         return [
             Stanford40DataItem(image=img, xml=self._get_xml_file(img))
             for img in self.image_files[: self.test_size]
@@ -102,7 +95,7 @@ class Stanford40DataSplitter:
         return int(self.full_size * self.validation_ratio)
 
     @property
-    def validation_items(self) -> "DATA_ITEMS":
+    def validation_items(self) -> "list[Stanford40DataItem]":
         return [
             Stanford40DataItem(image=img, xml=self._get_xml_file(img))
             for img in self.image_files[(self.test_size + self.train_size) :]
@@ -113,7 +106,7 @@ class Stanford40DataSplitter:
         return self.full_size - self.test_size - self.validation_size
 
     @property
-    def train_items(self) -> "DATA_ITEMS":
+    def train_items(self) -> "list[Stanford40DataItem]":
         return [
             Stanford40DataItem(image=img, xml=self._get_xml_file(img))
             for img in self.image_files[

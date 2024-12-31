@@ -1,0 +1,2 @@
+class ModelNotInitializedError(Exception):
+    pass

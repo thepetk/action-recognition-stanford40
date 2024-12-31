@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
 from torchvision.io import read_image, ImageReadMode
-from sfd40.utils import DATA_ITEMS, get_action
+from sfd40.utils import Stanford40DataItem, get_action
 
 
 class Stanford40Dataset(Dataset):
@@ -14,10 +14,10 @@ class Stanford40Dataset(Dataset):
 
     def __init__(
         self,
-        image_items: "DATA_ITEMS",
+        image_items: "list[Stanford40DataItem]",
         read_mode: "ImageReadMode",
         labels: "dict[str, int]",
-        transform: "transforms.Compose | None" = None,
+        transform: "transforms.Compose",
     ) -> "None":
         self.image_items = image_items
         self.transform = transform

@@ -47,4 +47,5 @@ jobs:
           export XML_FILES_PATH="test-resources/xml"
           export SAVE_AS_YAML=0
           export MODEL="pretrained"
+          export TEST_MODE=1
           uv run main.py

@@ -1,4 +1,2 @@
-from .splitter import Stanford40DataSplitter  # noqa: F401
-from .transforms import Stanford40Transform  # noqa: F401
-from .utils import get_hyperparameters, Stanford40HyperParameters  # noqa: F401
-from .loader import load_data  # noqa: F401
+from .manager import Stanford40DataManager  # noqa: F401
+from .utils import Stanford40HyperParameters  # noqa: F401

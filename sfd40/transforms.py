@@ -1,7 +1,7 @@
 from torchvision import transforms
 
 
-class Stanford40Transform:
+class Stanford40Transforms:
     def __init__(self, resize: "int") -> "None":
         self.resize = resize
 

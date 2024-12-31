@@ -1,92 +1,17 @@
-from models.custom_nn import CustomActionRecogntionNN
-from torch.utils.data import DataLoader
-import torch
-import torch.nn as nn
-from torch import optim
-
-from models import PretrainedNN
-
-
-def train(
-    model: "CustomActionRecogntionNN | PretrainedNN",
-    train_loader: "DataLoader",
-    device: "torch.device",
-    criterion: "nn.CrossEntropyLoss",
-    optimizer: "optim.Adam",
-) -> "tuple[CustomActionRecogntionNN | PretrainedNN, float]":
+class ModelChoice:
     """
-    covers the training stage of a given model over the data
-    of a given train loader, a device (cpu, cuda), a criterion
-    and an optimizer. Calculates and returns the avg training
-    loss of all batches along with the model.
+    Covers the model decision between pretrained or custom NN
     """
-    model.train()
-    total_loss = 0.0
-    for inputs, targets in train_loader:
-        inputs, targets = inputs.to(device), targets.to(device)
-        # Forward pass
-        outputs = model(inputs)
-        # Compute loss
-        loss = criterion(outputs, targets)
-        total_loss += loss.item()
-        # Backward pass and optimization
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-    avg_train_loss = total_loss / len(train_loader)
-    return model, round(avg_train_loss, 6)
+
+    RESNET = "pretrained"
+    CUSTOM = "custom"
 
 
-def test(
-    model: "CustomActionRecogntionNN | PretrainedNN",
-    loader: "DataLoader",
-    device: "torch.device",
-    criterion: "nn.CrossEntropyLoss",
-) -> "tuple[float, float]":
+class ModelOperation:
     """
-    covers the testing stage of a given model over the data
-    of a given test loader, a device (cpu, cuda) and a criterion
-    Calculates and returns the avg test loss and the accuracy.
+    Defines the type of operation that the model manager will perform
     """
-    model.eval()
-    correct = 0
-    total = 0
-    total_loss = 0.0
-    with torch.no_grad():
-        for test_inputs, test_targets in loader:
-            test_inputs, test_targets = test_inputs.to(device), test_targets.to(device)
-            outputs = model(test_inputs)
-            test_loss = criterion(outputs, test_targets)
-            total_loss += test_loss.item()
-            _, predicted = torch.max(outputs.data, 1)
-            total += test_targets.size(0)
-            correct += (predicted == test_targets).sum().item()
 
-    accuracy = 100 * correct / total
-    avg_test_loss = total_loss / len(loader)
-    return round(avg_test_loss, 6), accuracy
-
-
-def validate(
-    model: "CustomActionRecogntionNN | PretrainedNN",
-    loader: "DataLoader",
-    device: "torch.device",
-    criterion: "nn.CrossEntropyLoss",
-) -> "tuple[CustomActionRecogntionNN | PretrainedNN, float]":
-    """
-    covers the validation stage of a given model over the data
-    of a given validation loader, a device (cpu, cuda) and a
-    criterion. Calculates and returns the avg validation loss
-    of all batches along with the model.
-    """
-    model.eval()
-    with torch.no_grad():
-        total_loss = 0.0
-        for val_inputs, val_targets in loader:
-            val_inputs, val_targets = val_inputs.to(device), val_targets.to(device)
-            val_outputs = model(val_inputs)
-            val_loss = criterion(val_outputs, val_targets)
-            total_loss += val_loss
-
-        avg_val_loss = total_loss / len(loader)
-        return model, round(avg_val_loss, 6)
+    TRAIN = 0
+    VALIDATE = 1
+    TEST = 2
