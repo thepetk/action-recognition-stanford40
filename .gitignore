@@ -14,6 +14,7 @@ Stanford40/
 
 # Other resources
 examples/
+*_example.yaml
 *.pdf
 *.pth
 
