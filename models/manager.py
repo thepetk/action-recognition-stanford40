@@ -47,7 +47,7 @@ class ModelManager:
         else:
             self.current_model = PretrainedNN(in_channels, num_classes).to(self.device)
         # now that the model is set, initialize_the optimizer
-        self.optimizer = optim.Adam(self.current_model.parameters(), lr=learning_rate)
+        self.optimizer = optim.Adam(self.current_model.parameters(), lr=learning_rate)  # type: ignore
         print(f"ModelManager:: Initialized {model_name} NN, optimizer and criterion")
 
     def _operate(self, loader: "DataLoader", mode: "int") -> "float":
